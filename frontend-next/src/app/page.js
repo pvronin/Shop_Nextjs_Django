@@ -1,48 +1,23 @@
-// src/app/page.js
-import ProductCard from '@/components/ProductCard';
-import Pagination from '@/components/Pagination';
+import Link from "next/link";
+import ProductGrid from "@/components/ProductGrid";
 
-async function getProducts(page = 1) {
-  const res = await fetch(`http://127.0.0.1:8000/api/products/?page=${page}`, {
-    cache: 'no-store'
-  });
-  if (!res.ok) return null;
-  return res.json();
-}
-
-export default async function Home({ searchParams }) {
-  // گرفتن شماره صفحه از URL (پیش‌فرض 1)
-  const pageParam = await searchParams;
-  const currentPage = parseInt(pageParam.page) || 1;
-
-  const data = await getProducts(currentPage);
-
-  if (!data) return <div className="text-center p-20">خطا در بارگذاری محصولات...</div>;
-
-  const totalPages = Math.ceil(data.count / 12); // فرض بر این است که در هر صفحه 12 محصول دارید
-
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-extrabold text-center mb-12 text-gray-900">
-          فروشگاه مدرن ما
-        </h1>
+    <div>
+      {/* بخش بنر اصلی */}
+      <section className="bg-blue-600 text-white py-20 text-center">
+        <h1 className="text-4xl font-bold">به فروشگاه ما خوش آمدید</h1>
+        <p className="mt-4">جدیدترین محصولات را در صفحه فروشگاه ببینید</p>
+        <Link href="/shop" className="inline-block mt-6 bg-white text-blue-600 px-6 py-2 rounded-lg font-medium">
+          ورود به فروشگاه
+        </Link>
+      </section>
 
-        {/* لیست محصولات با کامپوننت کارت */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {data.results.map((item) => (
-            <ProductCard key={item.id} item={item} />
-          ))}
-        </div>
-
-        {/* کامپوننت صفحه‌بندی */}
-        <Pagination
-          currentPage={currentPage}
-          hasNext={!!data.next}
-          hasPrevious={!!data.previous}
-          totalPages={totalPages}
-        />
-      </div>
-    </main>
+      {/* بخش ویترین محصولات (فقط چند مورد محدود) */}
+      <section className="container mx-auto py-12">
+        <h2 className="text-xl font-bold mb-6">جدیدترین محصولات</h2>
+        <ProductGrid limit={4} /> {/* اینجا می‌توانیم با پاس دادن پروپس، تعداد را محدود کنیم */}
+      </section>
+    </div>
   );
 }

@@ -9,5 +9,11 @@ class Product(models.Model):
     thumbnail = models.URLField(max_length=500)
     stock = models.IntegerField(default=0)
 
+    dimensions = models.JSONField(default=dict) # ذخیره width, height, depth
+    meta = models.JSONField(default=dict)       # ذخیره createdAt, barcode و غیره
+
+    rating = models.FloatField(default=0.0)
+
+
     def __str__(self):
         return self.title
