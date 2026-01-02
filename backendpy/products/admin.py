@@ -3,4 +3,6 @@ from .models import Product
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'category','stock') # ستون‌هایی که نمایش داده می‌شوند
+    list_display = ('title', 'price', 'category', 'stock') # ستون‌هایی که نمایش داده می‌شوند
+
+    list_per_page = 40

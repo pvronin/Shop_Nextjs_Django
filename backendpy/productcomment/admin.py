@@ -14,3 +14,5 @@ class ReviewAdmin(admin.ModelAdmin):
 
     # نمایش فیلد تاریخ به صورت خواناتر
     readonly_fields = ('date',)
+
+    list_per_page = 40

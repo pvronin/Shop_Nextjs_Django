@@ -43,8 +43,13 @@ INSTALLED_APPS = [
     'productcomment',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 12,  # در هر صفحه ۱۲ محصول نمایش داده شود
+}
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # حتماً باید بالای بقیه باشد
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

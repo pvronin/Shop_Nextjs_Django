@@ -19,10 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # محصولات
+
     path('api/products/', include('products.urls')),
-    # یوزرها (در آینده)
-    # path('users/', include('users.urls')),
-    # سبد خرید (در آینده)
-    # path('cart/', include('cart.urls')),
+    path('api/productcomments/', include('productcomment.urls')),
 ]
