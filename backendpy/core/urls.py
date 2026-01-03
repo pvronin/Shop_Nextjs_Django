@@ -16,10 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# اضافه کردن این خط برای حل مشکل ارور:
+from productcategories.views import CategoryListAPI
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/products/', include('products.urls')),
     path('api/productcomments/', include('productcomment.urls')),
+
+    # حالا CategoryListAPI شناخته شده است
+    # path('api/categories/', CategoryListAPI.as_view(), name='category-list'),
+    path('api/categories/', include('productcategories.urls')),
 ]

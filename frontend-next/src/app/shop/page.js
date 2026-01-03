@@ -1,45 +1,70 @@
 import ProductGrid from "@/components/ProductGrid";
 import Pagination from "@/components/Pagination";
+import SearchBar from "@/components/SearchBar"; // این را الان می‌سازیم
 
-// تابع مستقیم برای گرفتن دیتا از API جنگو
-async function getShopData(page) {
-    const res = await fetch(`http://127.0.0.1:8000/api/products/?page=${page}`, {
+// تابع آپدیت شده برای دریافت پارامترهای فیلتر
+async function getShopData(page, search = "", category = "", brand = "", minPrice = "", maxPrice = "", minRating = "") {
+    const query = new URLSearchParams({
+        page: page,
+        ...(search && { search }),
+        ...(category && { category }),
+        ...(brand && { brand }),
+        ...(minPrice && { price__gte: minPrice }), // جنگو-فیلتر از __gte استفاده می‌کند
+        ...(maxPrice && { price__lte: maxPrice }),
+        ...(minRating && { rating__gte: minRating }),
+    }).toString();
+
+    const res = await fetch(`http://127.0.0.1:8000/api/products/?${query}`, {
         cache: "no-store",
     });
 
-    if (!res.ok) {
-        return { results: [], count: 0 };
-    }
-
+    if (!res.ok) return { results: [], count: 0 };
     return res.json();
 }
 
+import FilterSidebar from "@/components/FilterSidebar";
+
 export default async function ShopPage({ searchParams }) {
-    // ۱. گرفتن صفحه فعلی از URL
     const sp = await searchParams;
     const page = parseInt(sp.page) || 1;
+    const search = sp.search || "";
+    const category = sp.category || "";
+    const brand = sp.brand || "";
+    const minPrice = sp.minPrice || "";
+    const maxPrice = sp.maxPrice || "";
+    const minRating = sp.minRating || "";
 
-    // ۲. دریافت دیتا (شامل لیست محصولات و تعداد کل)
-    const data = await getShopData(page);
-
+    const data = await getShopData(page, search, category, brand, minPrice, maxPrice, minRating);
 
     return (
         <main className="container mx-auto px-4 py-8">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-800">فروشگاه محصولات</h1>
-                <p className="text-gray-500">تعداد کل کالاها: {data.count.toLocaleString('fa-IR')}</p>
-            </div>
+            <div className="flex flex-col md:flex-row gap-8">
 
-            {/* ۳. نمایش محصولات - حالا لیست محصولات را مستقیم به آن می‌دهیم */}
-            <ProductGrid products={data.results} />
+                {/* ستون اول: فیلترها */}
+                <div className="md:w-64 flex-shrink-0">
+                    <FilterSidebar />
+                </div>
 
-            {/* ۴. کامپوننت پجینیشن پیشرفته */}
-            <div className="mt-12">
-                <Pagination
-                    currentPage={page}
-                    totalCount={data.count}
-                    pageSize={12}
-                />
+                {/* ستون دوم: محتوا */}
+                <div className="flex-1">
+                    <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                        <h1 className="text-2xl font-bold text-gray-800">فروشگاه</h1>
+                        <SearchBar />
+                        <p className="text-sm text-gray-500">
+                             نمایش {data.results.length} از {data.count.toLocaleString('fa-IR')} کالا
+                        </p>
+                    </div>
+
+                    <ProductGrid products={data.results} />
+
+                    <div className="mt-12">
+                        <Pagination
+                            currentPage={page}
+                            totalCount={data.count}
+                            pageSize={12}
+                        />
+                    </div>
+                </div>
             </div>
         </main>
     );

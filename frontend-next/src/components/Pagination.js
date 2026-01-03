@@ -1,17 +1,26 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export default function Pagination({ currentPage, totalCount, pageSize = 12 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams(); // دسترسی به پارامترهای فعلی URL (مثل search=apple)
 
   // محاسبه تعداد کل صفحات
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  const handlePageChange = (newPage) => {
+const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > totalPages) return;
-    router.push(`${pathname}?page=${newPage}`);
+
+    // ۱. پارامترهای فعلی را می‌گیریم
+    const params = new URLSearchParams(searchParams.toString());
+
+    // ۲. فقط پارامتر page را تغییر می‌دهیم یا اضافه می‌کنیم
+    params.set("page", newPage);
+
+    // ۳. آدرس جدید را با حفظ پارامترهای قبلی می‌سازیم
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   // منطق برای نمایش شماره صفحات (مثلاً اگر صفحه 10 هستیم، 8 9 10 11 12 را نشان دهد)

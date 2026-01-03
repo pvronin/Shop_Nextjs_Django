@@ -1,3 +1,4 @@
+import ReviewSection from "@/components/ReviewSection";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -47,7 +48,9 @@ export default async function ProductDetailPage({ params }) {
 
             {/* بخش نظرات - کامپوننت‌وار */}
             <div className="bg-white p-8 rounded-2xl shadow-sm border">
-                <h2 className="text-2xl font-bold mb-8">نظرات کاربران ({product.reviews?.length || 0})</h2>
+
+                <ReviewSection reviews={product.reviews} />
+                {/* <h2 className="text-2xl font-bold mb-8">نظرات کاربران ({product.reviews?.length || 0})</h2>
 
                 {product.reviews && product.reviews.length > 0 ? (
                     <div className="space-y-6">
@@ -66,7 +69,7 @@ export default async function ProductDetailPage({ params }) {
                     </div>
                 ) : (
                     <p className="text-gray-500">هنوز نظری برای این محصول ثبت نشده است.</p>
-                )}
+                )} */}
             </div>
         </div>
     );
