@@ -1,10 +1,22 @@
-// src/components/Header.js
-"use client"; // چون از State برای منوی موبایل استفاده می‌کنیم
-import { useState } from 'react';
+"use client";
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useCartStore } from "@/store/useCartStore";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    // گرفتن سبد خرید از استور
+    const cart = useCartStore((state) => state.cart);
+
+    // حل مشکل Hydration: صبر می‌کنیم تا کامپوننت در مرورگر لود شود
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // محاسبه تعداد کل آیتم‌ها (مجموع تعداد هر محصول)
+    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
         <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
@@ -25,12 +37,23 @@ export default function Header() {
                     </div>
 
                     {/* بخش آیکون‌ها */}
-                    <div className="flex items-center gap-4">
-                        <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="flex items-center gap-2">
+                        {/* دکمه سبد خرید */}
+                        <Link
+                            href="/cart"
+                            className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition relative group"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
-                        </button>
+
+                            {/* نشانگر تعداد محصولات (Badge) */}
+                            {mounted && totalItems > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+                                    {totalItems > 9 ? '+9' : totalItems}
+                                </span>
+                            )}
+                        </Link>
 
                         {/* دکمه منوی موبایل */}
                         <div className="md:hidden">
@@ -48,6 +71,7 @@ export default function Header() {
                     <div className="md:hidden pb-4 space-y-2 border-t pt-4">
                         <Link href="/" className="block px-3 py-2 text-gray-700 hover:bg-emerald-50 rounded-lg">صفحه اصلی</Link>
                         <Link href="/shop" className="block px-3 py-2 text-gray-700 hover:bg-emerald-50 rounded-lg">فروشگاه</Link>
+                        <Link href="/cart" className="block px-3 py-2 text-emerald-600 font-bold hover:bg-emerald-50 rounded-lg">سبد خرید ({totalItems})</Link>
                     </div>
                 )}
             </nav>

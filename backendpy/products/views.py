@@ -19,10 +19,19 @@ class StandardResultsSetPagination(PageNumberPagination):
 # تعریف کلاس فیلتر برای حل مشکل TypeError و هماهنگی با Slug
 # backendpy/products/views.py
 
+# فقط این بخش کلاس ProductFilter را اصلاح کنید:
 class ProductFilter(django_filters.FilterSet):
-    # اینجا نام فیلد مدل شما طبق ارور category_relation است
-    # ما پارامتر ورودی URL را همان category نگه می‌داریم تا فرانت‌اِند نشکند
     category = django_filters.CharFilter(field_name='category_relation__slug', lookup_expr='exact')
+
+    # این خط را اضافه کنید:
+    # ما به جنگو-فیلتر می‌گوییم پارامتر 'ordering' را نادیده نگیر و از آن برای مرتب‌سازی استفاده کن
+    ordering = django_filters.OrderingFilter(
+        fields=(
+            ('price', 'price'),
+            ('rating', 'rating'),
+            ('id', 'id'),
+        ),
+    )
 
     class Meta:
         model = Product

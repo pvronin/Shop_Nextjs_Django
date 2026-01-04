@@ -3,7 +3,7 @@ import Pagination from "@/components/Pagination";
 import SearchBar from "@/components/SearchBar"; // این را الان می‌سازیم
 
 // تابع آپدیت شده برای دریافت پارامترهای فیلتر
-async function getShopData(page, search = "", category = "", brand = "", minPrice = "", maxPrice = "", minRating = "") {
+async function getShopData(page, search = "", category = "", brand = "", minPrice = "", maxPrice = "", minRating = "", ordering = "") {
     const query = new URLSearchParams({
         page: page,
         ...(search && { search }),
@@ -12,6 +12,7 @@ async function getShopData(page, search = "", category = "", brand = "", minPric
         ...(minPrice && { price__gte: minPrice }), // جنگو-فیلتر از __gte استفاده می‌کند
         ...(maxPrice && { price__lte: maxPrice }),
         ...(minRating && { rating__gte: minRating }),
+        ...(ordering && { ordering }), // اضافه کردن ترتیب‌بندی به کوئری
     }).toString();
 
     const res = await fetch(`http://127.0.0.1:8000/api/products/?${query}`, {
@@ -33,8 +34,9 @@ export default async function ShopPage({ searchParams }) {
     const minPrice = sp.minPrice || "";
     const maxPrice = sp.maxPrice || "";
     const minRating = sp.minRating || "";
+    const ordering = sp.ordering || ""; // ۲. گرفتن مقدار از URL
 
-    const data = await getShopData(page, search, category, brand, minPrice, maxPrice, minRating);
+    const data = await getShopData(page, search, category, brand, minPrice, maxPrice, minRating, ordering);
 
     return (
         <main className="container mx-auto px-4 py-8">
@@ -51,7 +53,7 @@ export default async function ShopPage({ searchParams }) {
                         <h1 className="text-2xl font-bold text-gray-800">فروشگاه</h1>
                         <SearchBar />
                         <p className="text-sm text-gray-500">
-                             نمایش {data.results.length} از {data.count.toLocaleString('fa-IR')} کالا
+                            نمایش {data.results.length} از {data.count.toLocaleString('fa-IR')} کالا
                         </p>
                     </div>
 

@@ -29,6 +29,22 @@ export default function FilterSidebar() {
 
     return (
         <aside className="w-full md:w-64 space-y-6 bg-white p-6 rounded-2xl border shadow-sm h-fit">
+
+
+            <div className="mb-6">
+                <h3 className="font-bold mb-4 text-gray-900 text-right">ترتیب مشاهده</h3>
+                <select
+                    onChange={(e) => updateFilter("ordering", e.target.value)}
+                    value={searchParams.get("ordering") || ""}
+                    className="w-full border rounded-lg px-2 py-2 text-sm bg-white outline-none text-right"
+                >
+                    <option value="">پیش‌فرض (جدیدترین)</option>
+                    <option value="-rating">محبوب‌ترین</option>
+                    <option value="-price">گران‌ترین</option>
+                    <option value="price">ارزان‌ترین</option>
+                </select>
+            </div>
+
             <div>
                 <h3 className="font-bold mb-4 text-gray-900">دسته‌بندی‌ها</h3>
                 <div className="flex flex-col gap-2">
@@ -66,6 +82,8 @@ export default function FilterSidebar() {
                     <option value="3">3 ستاره و بالاتر</option>
                 </select>
             </div>
+
+
 
             <div className="border-t pt-6">
                 <h3 className="font-bold mb-4 text-gray-900">محدوده قیمت ($)</h3>
