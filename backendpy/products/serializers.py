@@ -9,7 +9,12 @@ class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     # related_name در مدل Review باید 'reviews' باشد
     reviews = ReviewSerializer(many=True, read_only=True)
+    final_price = serializers.ReadOnlyField()
 
     class Meta:
         model = Product
-        fields = '__all__' # یا لیست فیلدهایی که داری
+        fields = [
+            'id', 'title', 'description', 'price', 'final_price',
+            'category_relation', 'category', 'thumbnail', 'stock',
+            'dimensions', 'meta', 'rating', 'reviews'
+        ]

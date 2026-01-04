@@ -28,7 +28,7 @@ export default function FilterSidebar() {
     };
 
     return (
-        <aside className="w-full md:w-64 space-y-6 bg-white p-6 rounded-2xl border shadow-sm h-fit">
+        <aside className="w-full space-y-6 bg-white p-6 rounded-2xl border shadow-sm h-fit">
 
 
             <div className="mb-6">

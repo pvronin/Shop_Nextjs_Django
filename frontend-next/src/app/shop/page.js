@@ -34,32 +34,39 @@ export default async function ShopPage({ searchParams }) {
     const minPrice = sp.minPrice || "";
     const maxPrice = sp.maxPrice || "";
     const minRating = sp.minRating || "";
-    const ordering = sp.ordering || ""; // ۲. گرفتن مقدار از URL
+    const ordering = sp.ordering || "";
 
     const data = await getShopData(page, search, category, brand, minPrice, maxPrice, minRating, ordering);
 
     return (
-        <main className="container mx-auto px-4 py-8">
-            <div className="flex flex-col md:flex-row gap-8">
-
-                {/* ستون اول: فیلترها */}
-                <div className="md:w-64 flex-shrink-0">
+        <main className="container mx-auto px-3 md:px-4 lg:px-6 py-4 md:py-6 lg:py-8">
+            <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-12">
+                {/* سایدبار فیلتر - در موبایل بالای صفحه */}
+                <div className="w-full lg:w-60 flex-shrink-0">
                     <FilterSidebar />
                 </div>
 
-                {/* ستون دوم: محتوا */}
+                {/* محتوای اصلی */}
                 <div className="flex-1">
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                        <h1 className="text-2xl font-bold text-gray-800">فروشگاه</h1>
-                        <SearchBar />
-                        <p className="text-sm text-gray-500">
-                            نمایش {data.results.length} از {data.count.toLocaleString('fa-IR')} کالا
-                        </p>
+                    {/* هدر */}
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 gap-4">
+                        <div className="w-full md:w-auto">
+                            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-2">فروشگاه</h1>
+                            <p className="text-xs md:text-sm text-gray-500">
+                                نمایش <span className="font-bold">{data.results.length}</span> از
+                                <span className="font-bold mr-1"> {data.count.toLocaleString('fa-IR')}</span> کالا
+                            </p>
+                        </div>
+                        <div className="w-full md:w-auto">
+                            <SearchBar />
+                        </div>
                     </div>
 
+                    {/* گرید محصولات */}
                     <ProductGrid products={data.results} />
 
-                    <div className="mt-12">
+                    {/* پجینیشن */}
+                    <div className="mt-8 md:mt-12">
                         <Pagination
                             currentPage={page}
                             totalCount={data.count}

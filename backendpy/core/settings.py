@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'productcomment',
     'django_filters',
     'productcategories',
+    'discounts'
 ]
 
 REST_FRAMEWORK = {

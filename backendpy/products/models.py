@@ -1,5 +1,6 @@
 from django.db import models
 from productcategories.models import Category # ایمپورت مدل جدید
+from django.utils import timezone # این خط حتما اضافه شود
 
 class Product(models.Model):
     # این فیلدها دقیقا با خروجی dummyjson.com مطابقت دارند
@@ -7,7 +8,21 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    @property
+    def final_price(self):
+        # این متد در زمان فراخوانی، قیمت واقعی را محاسبه می‌کند
+        now = timezone.now()
+        # ما از related_name='active_discounts' که در مدل Discount تعریف کردیم استفاده می‌کنیم
+        discount = self.active_discounts.filter(
+            is_active=True,
+            start_date__lte=now,
+            end_date__gte=now
+        ).first()
 
+        if discount:
+            # تبدیل به فلوت یا دسیمال برای محاسبات دقیق ریاضی
+            return float(self.price) * (1 - discount.percent / 100)
+        return self.price
 
     # فیلد جدید را با نامی که در اسکریپت استفاده کردیم (category_relation) نگه دار
 
