@@ -2,6 +2,7 @@ import localFont from "next/font/local"; // ۱. حتما این را اضافه 
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
 
 // ۲. تعریف فونت محلی وزیر
 const vazir = localFont({
@@ -22,13 +23,15 @@ export default function RootLayout({ children }) {
     return (
         <html lang="fa" dir="rtl">
             <body className={`${vazir.className} antialiased`}>
-                <Header />
+                <AuthProvider>
+                    <Header />
 
-                <main className="min-h-screen">
-                    {children}
-                </main>
+                    <main className="min-h-screen">
+                        {children}
+                    </main>
 
-                <Footer />
+                    <Footer />
+                </AuthProvider>
             </body>
         </html>
     );

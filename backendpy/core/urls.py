@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 # اضافه کردن این خط برای حل مشکل ارور:
 from productcategories.views import CategoryListAPI
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +32,8 @@ urlpatterns = [
     # حالا CategoryListAPI شناخته شده است
     # path('api/categories/', CategoryListAPI.as_view(), name='category-list'),
     path('api/categories/', include('productcategories.urls')),
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # برای لاگین
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # برای تمدید اعتبار
+    path('api/accounts/', include('accounts.urls')),
 ]
