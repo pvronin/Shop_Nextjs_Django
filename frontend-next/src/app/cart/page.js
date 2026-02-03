@@ -76,7 +76,7 @@ export default function CartPage() {
                     <div className="flex justify-start">
                         <button
                             onClick={clearCart}
-                            className="text-sm font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1 p-2"
+                            className="text-lg font-medium text-red-500 hover:text-red-700 transition-colors flex items-center gap-1 p-2"
                         >
                             🗑️ خالی کردن سبد خرید
                         </button>

@@ -114,9 +114,12 @@ export default async function ProductDetailPage({ params }) {
                                 <div className="text-4xl font-black text-blue-600">
                                     ${product.final_price.toLocaleString()}
                                 </div>
-                                <div className="text-base text-gray-500 line-through mt-1">
-                                    ${product.price.toLocaleString()}
-                                </div>
+
+                                {product.final_price != product.price && product.price && (
+                                    <div className="text-base text-gray-500 line-through mt-1">
+                                        ${product.price.toLocaleString()}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -183,7 +186,7 @@ export default async function ProductDetailPage({ params }) {
             </div>
 
             {/* توضیحات محصول */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-200">
+            <div className="bg-white p-6 mb-10 rounded-2xl border border-gray-200">
                 <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <div className="w-6 h-6 flex items-center justify-center bg-blue-100 text-blue-600 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -212,7 +215,7 @@ export default async function ProductDetailPage({ params }) {
             </div>
 
             {/* تاریخ ایجاد و به‌روزرسانی */}
-            <div className="text-center text-sm text-gray-500 border-t pt-6">
+            {/* <div className="text-center text-sm text-gray-500 border-t pt-6">
                 <div className="flex justify-center gap-6">
                     <div>
                         <span className="font-medium">تاریخ ایجاد:</span>
@@ -227,7 +230,7 @@ export default async function ProductDetailPage({ params }) {
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

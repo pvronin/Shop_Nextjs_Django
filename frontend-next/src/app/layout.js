@@ -1,4 +1,4 @@
-import localFont from "next/font/local"; // ۱. حتما این را اضافه کن
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -7,7 +7,7 @@ import { AuthProvider } from "@/context/AuthContext";
 // ۲. تعریف فونت محلی وزیر
 const vazir = localFont({
     src: [
-        { path: "../fonts/Vazir-Thin-FD-WOL.woff2", weight: "300" }, // دقت کن آدرس فایل‌ها درست باشد
+        { path: "../fonts/Vazir-Thin-FD-WOL.woff2", weight: "300" },
         { path: "../fonts/Vazir-Medium-FD-WOL.woff2", weight: "500" },
         { path: "../fonts/Vazir-Bold-FD-WOL.woff2", weight: "700" },
     ],
@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
                 <AuthProvider>
                     <Header />
 
-                    <main className="min-h-screen">
+                    <main className="container mx-auto p-4">
                         {children}
                     </main>
 

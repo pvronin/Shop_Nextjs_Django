@@ -20,9 +20,9 @@ export default function Header() {
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
-        <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-            <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16 items-center">
+        <header className=" bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+
+                <div className="container mx-auto px-4 flex justify-between h-16 items-center">
                     {/* لوگو */}
                     <div className="flex-shrink-0 flex items-center">
                         <Link href="/" className="text-2xl font-black text-emerald-600 tracking-tighter">
@@ -31,7 +31,7 @@ export default function Header() {
                     </div>
 
                     {/* منوی دسکتاپ */}
-                    <div className="hidden md:flex space-x-8 rtl:space-x-reverse text-sm font-medium text-gray-700">
+                    <div className="hidden md:flex gap-4 text-sm font-medium text-gray-700">
                         <Link href="/" className="hover:text-emerald-600 transition">صفحه اصلی</Link>
                         <Link href="/shop" className="hover:text-emerald-600 transition">فروشگاه</Link>
                         <Link href="/about" className="hover:text-emerald-600 transition">درباره ما</Link>
@@ -44,7 +44,7 @@ export default function Header() {
                             href="/cart"
                             className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition relative group"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-6 w-6 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                             {mounted && totalItems > 0 && (
@@ -81,7 +81,7 @@ export default function Header() {
                         {/* دکمه منوی موبایل */}
                         <div className="md:hidden">
                             <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-gray-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
                                 </svg>
                             </button>
@@ -101,7 +101,7 @@ export default function Header() {
                         )}
                     </div>
                 )}
-            </nav>
+
         </header>
     );
 }

@@ -11,6 +11,7 @@ export default function RegisterPage() {
         first_name: "",
         last_name: ""
     });
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
@@ -34,10 +35,8 @@ export default function RegisterPage() {
             const data = await res.json();
 
             if (res.ok) {
-                // ثبت‌نام موفق بود، کاربر را به صفحه لاگین می‌فرستیم
                 router.push("/login?registered=true");
             } else {
-                // نمایش خطاهای احتمالی از سمت جنگو (مثل تکراری بودن یوزرنیم)
                 setError(data.username || data.email || "خطایی در ثبت‌نام رخ داد.");
             }
         } catch (err) {
@@ -48,65 +47,140 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-[90vh] flex items-center justify-center px-4 py-10">
-            <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-2xl border border-gray-100">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50/50 flex items-center justify-center p-4">
+            <div className="max-w-md w-full">
+                {/* هدر */}
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-black text-gray-900">ساخت حساب کاربری</h2>
-                    <p className="text-gray-500 mt-2">اطلاعات خود را وارد کنید</p>
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl shadow-lg shadow-emerald-200 mb-4">
+                        <span className="text-2xl text-white">👤</span>
+                    </div>
+                    <h1 className="text-3xl font-bold text-gray-900">عضویت</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                        <input
-                            name="first_name"
-                            placeholder="نام"
-                            className="p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
-                            onChange={handleChange}
-                        />
-                        <input
-                            name="last_name"
-                            placeholder="نام خانوادگی"
-                            className="p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
-                            onChange={handleChange}
-                        />
+                {/* کارت فرم */}
+                <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8">
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        {/* نام و نام خانوادگی */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1 mr-2">
+                                    نام
+                                </label>
+                                <input
+                                    name="first_name"
+                                    placeholder="مثال: علی"
+                                    className="w-full p-3.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1 mr-2">
+                                    نام خانوادگی
+                                </label>
+                                <input
+                                    name="last_name"
+                                    placeholder="مثال: محمدی"
+                                    className="w-full p-3.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+
+                        {/* نام کاربری */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1 mr-2">
+                                نام کاربری
+                            </label>
+                            <input
+                                name="username"
+                                placeholder="مثال: ali123"
+                                required
+                                className="w-full p-3.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        {/* ایمیل */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1 mr-2">
+                                ایمیل
+                            </label>
+                            <input
+                                name="email"
+                                type="email"
+                                placeholder="example@email.com"
+                                required
+                                className="w-full p-3.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        {/* رمز عبور */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1 mr-2">
+                                رمز عبور
+                            </label>
+                            <div className="relative">
+                                <input
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="حداقل ۸ کاراکتر"
+                                    required
+                                    className="w-full p-3 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
+                                    onChange={handleChange}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors text-sm font-medium"
+                                >
+                                    {showPassword ? "مخفی" : "نمایش"}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* نمایش خطا */}
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                                <p className="text-red-600 text-sm font-medium text-center">
+                                    ⚠️ {error}
+                                </p>
+                            </div>
+                        )}
+
+                        {/* دکمه ثبت‌نام */}
+                        <button
+                            disabled={isLoading}
+                            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-emerald-200/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                        >
+                            {isLoading ? (
+                                <span className="flex items-center justify-center">
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin ml-2"></div>
+                                    در حال ثبت‌نام...
+                                </span>
+                            ) : (
+                                "عضویت"
+                            )}
+                        </button>
+                    </form>
+
+                    {/* لینک ورود */}
+                    <div className="mt-8 pt-6 border-t border-slate-200">
+                        <p className="text-center text-gray-600">
+                            قبلاً حساب دارید؟{" "}
+                            <Link
+                                href="/login"
+                                className="text-emerald-600 font-bold hover:text-emerald-700 hover:underline transition-colors"
+                            >
+                                وارد شوید
+                            </Link>
+                        </p>
                     </div>
-                    <input
-                        name="username"
-                        placeholder="نام کاربری *"
-                        required
-                        className="w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
-                        onChange={handleChange}
-                    />
-                    <input
-                        name="email"
-                        type="email"
-                        placeholder="ایمیل *"
-                        required
-                        className="w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
-                        onChange={handleChange}
-                    />
-                    <input
-                        name="password"
-                        type="password"
-                        placeholder="رمز عبور *"
-                        required
-                        className="w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-emerald-500"
-                        onChange={handleChange}
-                    />
+                </div>
 
-                    {error && <p className="text-red-500 text-sm font-bold text-center">{error}</p>}
-
-                    <button
-                        disabled={isLoading}
-                        className="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-600 transition-all disabled:opacity-50"
-                    >
-                        {isLoading ? "در حال ثبت‌نام..." : "تأیید و عضویت"}
-                    </button>
-                </form>
-
-                <p className="mt-6 text-center text-gray-600">
-                    قبلاً عضو شده‌اید؟{" "}
-                    <Link href="/login" className="text-emerald-600 font-bold hover:underline">وارد شوید</Link>
+                {/* پیام پایین */}
+                <p className="text-center text-sm text-gray-400 mt-6">
+                    با عضویت، با قوانین و مقررات موافقت می‌کنید
                 </p>
             </div>
         </div>
