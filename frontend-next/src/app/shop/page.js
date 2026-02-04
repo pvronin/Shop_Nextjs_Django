@@ -45,7 +45,7 @@ export default async function ShopPage({ searchParams }) {
     return (
         <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-12">
             {/* سایدبار فیلتر - در موبایل بالای صفحه */}
-            <div className="w-full lg:w-72 flex-shrink-0">
+            <div className="w-full lg:w-72 flex-shrink-0 relative">
                 <FilterSidebar />
             </div>
 

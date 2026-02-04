@@ -54,7 +54,7 @@ export default function FilterSidebar() {
     ).length;
 
     return (
-        <aside className="w-full bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 h-fit">
+        <aside className="w-full bg-white rounded-2xl border border-gray-200 shadow-sm h-fit sticky top-17">
             {/* هدر سایدبار */}
             <div className="p-6 border-b border-gray-100">
                 <div className="flex items-center justify-between mb-2">
@@ -72,7 +72,7 @@ export default function FilterSidebar() {
             </div>
 
             {/* محتوای فیلترها */}
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-5">
                 {/* بخش ترتیب */}
                 <div className="bg-gray-50 rounded-xl p-4">
                     <button
@@ -98,7 +98,6 @@ export default function FilterSidebar() {
                             <option value="-rating">محبوب‌ترین ★</option>
                             <option value="-price">گران‌ترین ↑</option>
                             <option value="price">ارزان‌ترین ↓</option>
-                            <option value="-created_at">جدیدترین 🆕</option>
                         </select>
                     )}
                 </div>
@@ -143,9 +142,9 @@ export default function FilterSidebar() {
                                             <span className="w-2 h-2 rounded-full bg-blue-400"></span>
                                             {cat.name}
                                         </span>
-                                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
+                                        {/* <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
                                             {cat.product_count || 0}
-                                        </span>
+                                        </span> */}
                                     </button>
                                 ))}
                             </div>
@@ -185,7 +184,7 @@ export default function FilterSidebar() {
                             </select>
 
                             {/* نمایش بصری ستاره‌ها */}
-                            <div className="flex justify-center gap-1 pt-2">
+                            {/* <div className="flex justify-center gap-1 pt-2">
                                 {[1, 2, 3, 4, 5].map(star => (
                                     <button
                                         key={star}
@@ -197,7 +196,7 @@ export default function FilterSidebar() {
                                         <FiStar className={`w-5 h-5 ${star <= 4 ? "text-amber-400" : "text-gray-300"}`} />
                                     </button>
                                 ))}
-                            </div>
+                            </div> */}
                         </div>
                     )}
                 </div>
@@ -242,7 +241,7 @@ export default function FilterSidebar() {
                                         <FiDollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                                         <input
                                             type="number"
-                                            placeholder="هر مقدار"
+                                            placeholder="∞"
                                             defaultValue={searchParams.get("maxPrice") || ""}
                                             onBlur={(e) => updateFilter("maxPrice", e.target.value)}
                                             className="w-full bg-white border border-gray-300 rounded-xl pl-10 pr-3 py-2.5 text-sm text-gray-800 outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 text-left"
@@ -250,30 +249,15 @@ export default function FilterSidebar() {
                                     </div>
                                 </div>
                             </div>
-
-                            {/* اسلایدر قیمت (نمایشی) */}
-                            <div className="pt-2">
-                                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                                    <span>0$</span>
-                                    <span>500$</span>
-                                    <span>1000$+</span>
-                                </div>
-                                <div className="relative h-2 bg-gray-200 rounded-full">
-                                    <div
-                                        className="absolute h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"
-                                        style={{ width: '70%' }}
-                                    ></div>
-                                </div>
-                            </div>
                         </div>
                     )}
                 </div>
 
                 {/* دکمه‌های اکشن */}
-                <div className="flex gap-3 pt-4">
+                <div className="flex gap-3">
                     <button
                         onClick={clearAllFilters}
-                        className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium py-3 rounded-xl transition-all duration-300 hover:shadow-lg active:scale-95 flex items-center justify-center gap-2"
+                        className="flex-1 text-xs bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium py-3 px-1 rounded-xl transition-all duration-300 hover:shadow-lg active:scale-95 flex items-center justify-center gap-2"
                     >
                         <FiX className="w-4 h-4" />
                         پاک کردن همه
@@ -284,7 +268,7 @@ export default function FilterSidebar() {
                             const params = new URLSearchParams(searchParams.toString());
                             router.push(`/shop?${params.toString()}`, { scroll: false });
                         }}
-                        className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium py-3 rounded-xl transition-all duration-300 hover:shadow-lg active:scale-95 flex items-center justify-center gap-2"
+                        className="flex-1 text-xs bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium py-3 px-1 rounded-xl transition-all duration-300 hover:shadow-lg active:scale-95 flex items-center justify-center gap-2"
                     >
                         <FiFilter className="w-4 h-4" />
                         اعمال فیلترها
