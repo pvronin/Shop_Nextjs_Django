@@ -11,6 +11,7 @@ export default function RegisterPage() {
         first_name: "",
         last_name: ""
     });
+    const [rules, setRules] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ export default function RegisterPage() {
         setError("");
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/accounts/register/", {
+            const res = await fetch("http://127.0.0.1:8000/api/auth/register/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -37,7 +38,16 @@ export default function RegisterPage() {
             if (res.ok) {
                 router.push("/login?registered=true");
             } else {
-                setError(data.username || data.email || "خطایی در ثبت‌نام رخ داد.");
+                // نمایش خطاهای مختلف از backend
+                if (data.username) {
+                    setError(`نام کاربری: ${data.username[0]}`);
+                } else if (data.email) {
+                    setError(`ایمیل: ${data.email[0]}`);
+                } else if (data.password) {
+                    setError(`رمز عبور: ${data.password[0]}`);
+                } else {
+                    setError("خطایی در ثبت‌نام رخ داد.");
+                }
             }
         } catch (err) {
             setError("اتصال به سرور برقرار نشد.");
@@ -47,7 +57,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50/50 flex items-center justify-center p-4">
+        <div className="flex items-center justify-center p-4">
             <div className="max-w-md w-full">
                 {/* هدر */}
                 <div className="text-center mb-8">
@@ -58,7 +68,7 @@ export default function RegisterPage() {
                 </div>
 
                 {/* کارت فرم */}
-                <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8">
+                <div className="bg-slate-50 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8">
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/* نام و نام خانوادگی */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -71,6 +81,7 @@ export default function RegisterPage() {
                                     placeholder="مثال: علی"
                                     className="w-full p-3.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                             <div>
@@ -82,6 +93,7 @@ export default function RegisterPage() {
                                     placeholder="مثال: محمدی"
                                     className="w-full p-3.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                         </div>
@@ -126,6 +138,7 @@ export default function RegisterPage() {
                                     type={showPassword ? "text" : "password"}
                                     placeholder="حداقل ۸ کاراکتر"
                                     required
+                                    minLength="8"
                                     className="w-full p-3 bg-white border border-slate-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
                                     onChange={handleChange}
                                 />
@@ -148,9 +161,21 @@ export default function RegisterPage() {
                             </div>
                         )}
 
+                        <div className="flex justify-around items-center">
+                            <p className="text-center text-sm text-gray-400">
+                                با عضویت، با قوانین و مقررات موافقت می‌کنید
+                            </p>
+                            <input
+                                onChange={(e)=> setRules(e.target.checked)}
+                                type="checkbox"
+                                checked={rules}
+                                className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                            />
+                        </div>
+
                         {/* دکمه ثبت‌نام */}
                         <button
-                            disabled={isLoading}
+                            disabled={isLoading || !rules}
                             className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-emerald-200/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
                         >
                             {isLoading ? (
@@ -177,11 +202,6 @@ export default function RegisterPage() {
                         </p>
                     </div>
                 </div>
-
-                {/* پیام پایین */}
-                <p className="text-center text-sm text-gray-400 mt-6">
-                    با عضویت، با قوانین و مقررات موافقت می‌کنید
-                </p>
             </div>
         </div>
     );

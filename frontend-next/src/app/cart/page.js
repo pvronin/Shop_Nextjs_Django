@@ -27,7 +27,7 @@ export default function CartPage() {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-10" dir="rtl">
+        <div className="mx-auto px-4 py-10" dir="rtl">
             <h1 className="text-3xl font-black mb-10 text-gray-900 border-r-4 border-emerald-600 pr-4">سبد خرید شما</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -93,15 +93,15 @@ export default function CartPage() {
                         </div>
                         <div className="flex justify-between text-gray-400">
                             <span>مجموع قیمت</span>
-                            <span className="font-bold text-white">${getTotalPrice().toLocaleString()}</span>
+                            <span className="font-bold text-white">{getTotalPrice().toLocaleString()} تومان</span>
                         </div>
                         <div className="flex justify-between text-gray-400">
                             <span>هزینه ارسال</span>
-                            <span className="text-emerald-400 font-bold">رایگان</span>
+                            <span className="text-emerald-400 font-bold">{getTotalPrice() >= 500 ? 'رایگان' : 100}</span>
                         </div>
                         <div className="border-t border-gray-800 pt-6 flex justify-between items-center">
                             <span className="text-lg">مبلغ قابل پرداخت</span>
-                            <span className="text-3xl font-black text-emerald-400">${getTotalPrice().toLocaleString()}</span>
+                            <span className="text-2xl font-black text-emerald-400">{getTotalPrice().toLocaleString()} تومان</span>
                         </div>
                     </div>
 

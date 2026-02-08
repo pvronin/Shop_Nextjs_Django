@@ -31,7 +31,7 @@ export default function Header() {
                     </div>
 
                     {/* منوی دسکتاپ */}
-                    <div className="hidden md:flex gap-4 text-sm font-medium text-gray-700">
+                    <div className="hidden md:flex gap-5 text-sm font-medium text-gray-700">
                         <Link href="/" className="hover:text-emerald-600 transition">صفحه اصلی</Link>
                         <Link href="/shop" className="hover:text-emerald-600 transition">فروشگاه</Link>
                         <Link href="/about" className="hover:text-emerald-600 transition">درباره ما</Link>
@@ -59,7 +59,7 @@ export default function Header() {
                             {mounted && (
                                 user ? (
                                     <div className="flex items-center gap-4">
-                                        <span className="text-sm font-semibold text-gray-700">پنل کاربری</span>
+                                        <Link className="text-sm font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg px-3 py-1.5 transition" href="/dashboard">پنل کاربری</Link>
                                         <button
                                             onClick={logout}
                                             className="text-xs bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-bold hover:bg-red-100 transition"

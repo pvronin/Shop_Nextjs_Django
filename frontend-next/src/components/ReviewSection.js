@@ -1,9 +1,6 @@
 export default function ReviewSection({ reviews }) {
     return (
         <div className="bg-white p-8 rounded-2xl shadow-sm mt-12">
-            <h2 className="text-2xl font-bold mb-8 text-gray-800">
-                نظرات کاربران ({reviews?.length || 0})
-            </h2>
 
             {reviews && reviews.length > 0 ? (
                 <div className="space-y-6">
@@ -11,7 +8,7 @@ export default function ReviewSection({ reviews }) {
                         <div key={index} className="border-b border-b-gray-200 last:border-0 pb-6 group">
                             <div className="flex justify-between items-center mb-2">
                                 <span className="font-bold text-gray-700">{rev.reviewer_name}</span>
-                                <div className="flex text-yellow-400">
+                                <div className="flex text-yellow-400 text-lg">
                                     {"★".repeat(rev.rating)}{"☆".repeat(5 - rev.rating)}
                                 </div>
                             </div>

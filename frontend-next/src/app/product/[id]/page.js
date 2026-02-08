@@ -30,7 +30,7 @@ function RatingStars({ rating }) {
                     )}
                 </span>
             ))}
-            <span className="text-gray-700 font-bold mr-1">{rating.toFixed(1)}</span>
+            <span className="text-gray-700 font-bold mr-1">{rating.toFixed(2)}</span>
         </div>
     );
 }
@@ -41,13 +41,12 @@ export default async function ProductDetailPage({ params }) {
 
     if (!product) notFound();
 
-
     // استخراج داده‌های متا
     const meta = product.meta || {};
     const dimensions = product.dimensions || {};
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <>
             {/* هدر محصول */}
             <div className="mb-6">
                 <h1 className="text-4xl font-bold text-gray-900">{product.title}</h1>
@@ -63,17 +62,12 @@ export default async function ProductDetailPage({ params }) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 {/* گالری تصاویر */}
                 <div className="space-y-4">
-                    <div className="relative h-[500px] w-full rounded-2xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 p-8">
+                    <div className="h-[500px] w-full rounded-2xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 p-8">
                         <img
                             src={product.thumbnail || "/placeholder.png"}
                             alt={product.title}
                             className="object-contain w-full h-full hover:scale-105 transition-transform duration-300"
                         />
-
-                        {/* تگ جدید بودن */}
-                        <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold">
-                            جدید
-                        </div>
                     </div>
 
                     {/* بارکد و QR */}
@@ -103,21 +97,20 @@ export default async function ProductDetailPage({ params }) {
                     {/* وضعیت موجودی و قیمت */}
                     <div className="bg-gradient-to-r from-white to-gray-50 p-6 rounded-2xl border border-gray-200">
                         <div className="flex justify-between items-start mb-4">
-                            <div>
-                                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${product.stock > 0 ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}`}>
-                                    <div className={`w-2 h-2 rounded-full ${product.stock > 0 ? "bg-emerald-500" : "bg-red-500"}`}></div>
-                                    {product.stock > 0 ? `موجود در انبار (${product.stock} عدد)` : "ناموجود"}
-                                </div>
+
+                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${product.stock > 0 ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}`}>
+                                <div className={`w-2 h-2 rounded-full ${product.stock > 0 ? "bg-emerald-500" : "bg-red-500"}`}></div>
+                                {product.stock > 0 ? `موجود در انبار (${product.stock} عدد)` : "ناموجود"}
                             </div>
 
                             <div className="text-right">
                                 <div className="text-4xl font-black text-blue-600">
-                                    ${product.final_price.toLocaleString()}
+                                    {product.final_price.toLocaleString()} تومان
                                 </div>
 
                                 {product.final_price != product.price && product.price && (
                                     <div className="text-base text-gray-500 line-through mt-1">
-                                        ${product.price.toLocaleString()}
+                                        {product.price.toLocaleString()}
                                     </div>
                                 )}
                             </div>
@@ -125,8 +118,6 @@ export default async function ProductDetailPage({ params }) {
 
                         <AddToCartSection product={product} />
                     </div>
-
-
 
                     {/* ابعاد و مشخصات */}
                     <div className="bg-white p-6 rounded-2xl border border-gray-200">
@@ -159,7 +150,7 @@ export default async function ProductDetailPage({ params }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-gradient-to-r from-blue-50 to-white p-4 rounded-xl border border-blue-100 flex items-center gap-3">
                             <div className="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-600 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <svg className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                                     <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h4v1a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H20a1 1 0 001-1v-4a1 1 0 00-.293-.707l-2-2A1 1 0 0018 8h-2V5a1 1 0 00-1-1H3zm11 4h2l1 1v2h-3V8z" />
                                 </svg>
@@ -172,7 +163,7 @@ export default async function ProductDetailPage({ params }) {
 
                         <div className="bg-gradient-to-r from-emerald-50 to-white p-4 rounded-xl border border-emerald-100 flex items-center gap-3">
                             <div className="w-10 h-10 flex items-center justify-center bg-emerald-100 text-emerald-600 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <svg className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
                             </div>
@@ -189,7 +180,7 @@ export default async function ProductDetailPage({ params }) {
             <div className="bg-white p-6 mb-10 rounded-2xl border border-gray-200">
                 <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <div className="w-6 h-6 flex items-center justify-center bg-blue-100 text-blue-600 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                         </svg>
                     </div>
@@ -231,6 +222,6 @@ export default async function ProductDetailPage({ params }) {
                     </div>
                 </div>
             </div> */}
-        </div>
+        </>
     );
 }

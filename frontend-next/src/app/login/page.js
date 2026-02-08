@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -24,13 +23,13 @@ export default function LoginPage() {
         if (result.success) {
             router.push("/");
         } else {
-            setError("نام کاربری یا رمز عبور اشتباه است.");
-            setIsLoading(false);
+            setError(result.error || "نام کاربری یا رمز عبور اشتباه است.");
         }
+        setIsLoading(false);
     };
 
     return (
-        <div className="min-h-[80vh] flex items-center justify-center px-4">
+        <div className="min-h-[90vh] flex items-center justify-center px-4">
             <div className="max-w-md w-full bg-white p-10 rounded-3xl shadow-2xl shadow-gray-200 border border-gray-100">
                 <div className="text-center mb-10">
                     <h2 className="text-3xl font-black text-gray-900">خوش آمدید</h2>
@@ -76,7 +75,7 @@ export default function LoginPage() {
                     </button>
                 </form>
 
-                <div className="mt-8 text-center">
+                <div className="mt-8 text-center text-sm">
                     <p className="text-gray-600">
                         حساب کاربری ندارید؟{" "}
                         <Link href="/register" className="text-emerald-600 font-bold hover:underline">
